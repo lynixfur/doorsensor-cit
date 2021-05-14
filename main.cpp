@@ -44,11 +44,11 @@ void statusColor(int r, int g, int b)
 
 void setStatus() {
   
-    if(memory_0x01 > 0) {
+    if(memory_0x01 != 0) {
       memory_0x00 = 0; // Busy
     }
   
-    if(memory_0x01 < 1)  {
+    if(memory_0x01 == 0)  {
       
       memory_0x00 = 1;  // Idle
     }
