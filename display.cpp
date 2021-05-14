@@ -13,16 +13,75 @@ int f = 0; //AM
 // 31-MAY-2021
 // 12:00:00PM [000]
 
+int connectArtemis(String api) {
+    // This feature is not implemented
 
+    // This Function dumps the Raw Memory of both device into
+    // a HTTP Request and sends it to the Artemis API
+ 
+  	delay(150);
+  
+    //while (WiFi.status() != WL_CONNECTED) {
+      //delay(500);
+      //Serial.print(".");
+    //}
+    //Serial.println("");
+    //Serial.println("INFO : WiFi connected");
+  
+    //Connect to Artemis API
+    //if(client.connect(server, 80)) {
+      //Serial.println("INFO : Connected to Artemis");
+      //client.print("GET https://artemis.longhorn.ga/api/dump_testproject.php HTTP/1.1");
+      //client.println("ARTEMIS : "); client.print(server);
+      //client.println("INFO : Connection closed");
+      //client.println();
+      //client.println();
+    //}
+  
+  
+  	clearScreen();
+    lcd.setCursor(0, 0);
+    lcd.print("Artemis API");
+  	lcd.setCursor(0, 1);
+  	lcd.print("Offline");
+  	return 0;
+}
 
+int connectUSB() {
+	return 0;
+}
 
-void setup() {
-  Serial.begin(9600);
+int memoryManagement() {
+
+}
+
+void setup() {  Serial.begin(9600);
   pinMode(2, OUTPUT);
   pinMode(4, OUTPUT);
   pinMode(13,OUTPUT);
   analogWrite(6,Contrast);
   lcd.begin(16, 2);
+     lcd.setCursor(0, 0);
+     lcd.print("Longhorn STW");
+     lcd.setCursor(0, 1);
+     lcd.print("Initializing...");
+  	 delay(500);
+  	 clearScreen();
+     lcd.setCursor(0, 0);
+     lcd.print("Artemis API");
+     lcd.setCursor(0, 1);
+     lcd.print("Connecting...");
+  	 connectArtemis("https://artemis.longhorn.ga/api");
+  	 //Allows time for the connection to initialize
+     delay(350);
+}
+
+void clearScreen() {
+     lcd.setCursor(0, 0);
+     lcd.print("                ");
+     lcd.setCursor(0, 1);
+     lcd.print("                ");
+     lcd.setCursor(0, 0);
 }
 
 void loop() {
@@ -43,10 +102,7 @@ void loop() {
     if(f==2)f=0;
    }
 
-  
-     lcd.setCursor(0, 0);
-     lcd.print("                ");
-     lcd.setCursor(0, 0);
+	clearScreen();
      if(h<10)lcd.print("0");
   lcd.print(h);
      lcd.print(":");
