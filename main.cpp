@@ -2,7 +2,7 @@
 
 String memory_0xF3 = "DisableLED=0;DisableSOUND=0;14-MAY-2021;00:00:00am;10MAY2021:2;11MAY2021:5;12MAY2021:6;13MAY2021:8;14MAY2021:3";
 int memory_0x00 = 1; // Idle
-int memory_0x01 = 0; // Status
+int memory_0x01 = 3; // Status
 
 int memory_1x00 = 0; // Doorway UltraSonic Sensor Echo
 int memory_1x01 = 0; // Doorway UltraSonic Sensor Trig
@@ -43,45 +43,41 @@ void statusColor(int r, int g, int b)
 }
 
 void setStatus() {
+  if(memory_0x00 == 1) statusColor(0,255,0);
+  if(memory_0x00 == 2) statusColor(255,0,0);
   
-    if(memory_0x01 != 0) {
-      memory_0x00 = 0; // Busy
+  if(memory_0x01 > 0) {
+  	memory_0x00 = 0; // Remove Idle State
+    
+    // Sending Data
+    if(memory_0x01 == 3) {
+    	statusColor(255,75,0);
+        delay(50);
+      	memory_0x01 = 0;
     }
-  
-    if(memory_0x01 == 0)  {
-      
-      memory_0x00 = 1;  // Idle
+    
+    // Motion Detected
+    if(memory_0x01 == 6) {
+    	statusColor(0,0,255);
+        delay(500);
+      	memory_0x01 = 0;
     }
-
-    if(memory_0x00 == 0) {statusColor(0,255,0);} //High Power
-    if(memory_0x01 == 25) {statusColor(255,0,0);} //Low Power
-
-    // Movement Recorded
-
-    if(memory_0x01 == 9) {
-        statusColor(0,0,255);
-        delay(100);
-        statusColor(0,0,0);
-
-        memory_0x00 = 0;
-        memory_0x01 = 0;
-    }
-
+    
     // Error Exception
-
-    if(memory_0x01 == 9) {
-        statusColor(255,0,0);
-        delay(100);
-        statusColor(0,0,0);
-
-        //Force Restart
-        memory_0x00 = 0;
-        memory_0x01 = 9;
+    while (memory_0x01 == 9) {
+      statusColor(255,0,0);
+      delay(500);
+      statusColor(0,0,0);
+      delay(500);
     }
+    
+  } else {
+  	memory_0x00 = 1; // Restore Idle State
+  }
 }
 
 void sendFeedback() {
-
+	if(
 }
 
 
